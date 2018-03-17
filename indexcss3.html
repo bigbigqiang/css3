@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+                *{ margin:0; padding:0; list-style:none; border:none; }
+                body{ height:100%; background:#000; padding-bottom:100px;}
+                .demo1{ width:150px; height:300px; background:#0029d8; box-shadow:0 0 1px #1f49ff; margin:100px auto; transition:all 1s;}
+                /*15px 表示阴影向下移动15px*/
+                .demo1:hover{ box-shadow:0 15px 20px #1f49ff; }
+
+                .demo2 li{ width:300px; height:80px; background:skyblue; border:1px solid #0035fb; margin-bottom:20px;}
+                /*若设置了两个属性 第一个对应左上 右下 第二个对应右上 左下*/
+                .demo2 li:nth-child(odd){ border-radius:10px 30px; }
+                /*若设置了三个属性 第一个对应左上 第二个对应右上 左下 第三个对应右下*/
+                .demo2 li:nth-child(2){ border-radius:10px 30px 50px; }
+                /*若设置了4个属性 依次对应左上 右上 右下 左下*/
+                .demo2 li:nth-child(3){ border-radius:10px 20px 30px 40px; }
+
+                .demo3{ width:310px; height:438px; border:1px solid red; margin:200px auto; position:relative; }
+                .demo3 li{ position:absolute; left:0; top:0; width:100%; height:100%;}
+                .demo3 li img{ display:block; width:100%; }
+                .demo3 li:nth-child(1){ z-index: 2; background:#d7d7d7; }
+                .demo3 li:nth-child(2){ z-index: 2; background:skyblue; }
+                .demo3 li:nth-child(3){ z-index: 3; background:pink;}
+                .demo3 li:nth-child(4){ z-index: 4; background:yellowgreen;}
+                .demo3 li:nth-child(5){ z-index: 5; background:orange;}
+                .demo3:hover li{ transform-origin:20px 20px; transition:transform 1s;}
+                .demo3:hover li:nth-child(1){ transform:rotate(288deg);}
+                .demo3:hover li:nth-child(2){ transform:rotate(216deg);}
+                .demo3:hover li:nth-child(3){ transform:rotate(144deg);}
+                .demo3:hover li:nth-child(4){ transform:rotate(72deg);}                        
+
+                .demo4{ perspective:100px; }
+                .demo4 .container{ width:100px; height:100px; margin:100px auto; border:1px solid gray; background:skyblue; /*transform:rotateZ(45deg);*/ transform:translateZ(-50px); -moz-transform:translateZ(-50px);}        
+/*                X轴：从左往右
+                Y轴：从上往下
+                Z轴：从里往外
+
+                旋转方向的判断 左手定则
+                大拇指 指向 旋转的 那个轴的方向
+                剩余的四根手指 弯曲的方向 就是旋转的方向
+
+                为了有3d的透视效果(近大远小),需要为 旋转元素的 父元素 添加透视属性
+                透视属性perspective 值越大 效果越不明显
+                        设置的是 3d变换元素 距离 浏览器的 距离
+
+                给元素设置translateZ 必须给其父元素添加perspective属性,若设置translateX或者translateY则父元素不需要perspective属性
+*/
+
+                .demo5{ text-align:center; }
+                .demo5 ul{overflow:hidden;}
+                .demo5 ul li{ float:left; width:33.3333%; height:200px;}
+                .demo5 ul li:nth-child(1){ background:skyblue;}
+                .demo5 ul li:nth-child(2){ background:pink;}
+                .demo5 ul li:nth-child(3){ background:orange;}
+                .demo5 ul li img{ display:block; width:100%; }
+                .demo5:hover ul li img{ transition:all 2s linear; }
+/*                .demo5:hover ul li:nth-child(1) img{
+                        transform:rotateX(360deg);                        
+                }
+                .demo5:hover ul li:nth-child(2) img{
+                        transform:rotateY(360deg);
+                }
+                .demo5:hover ul li:nth-child(3) img{
+                        transform:rotateZ(360deg);
+                }*/
+                .demo5 #output{color:#fff; display:inline-block; padding:0 30px; height:50px; line-height:50px; }
+                .demo6 .container{ width:300px; height:300px; margin:200px auto; background:skyblue; background-size:100% auto; position:relative;        perspective: 500px; transform-style: preserve-3d;}        
+                /*设置元素反面看不到 backface-visibility:hidden*/
+                .demo6 .door{width:50%; height:100%; background:brown; position:absolute; top:0; transition:all 1s; backface-visibility:hidden;}
+                .demo6 .door.left{ left:0; transform-origin:left center; }
+                .demo6 .door.right{ right:0; transform-origin:right center;}        
+                .door::before {
+                    background: orange none repeat scroll 0 0;
+                    border-radius: 50%;
+                    content: "";
+                    height: 15px;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-7.5px);
+                    width: 15px;
+                }        
+                .door.left::before{ right: 10px; }
+                .door.right::before{ left: 10px; }
+                .demo6:hover .door.left{ transform: rotateY(-80deg); }
+                .demo6:hover .door.right{ transform: rotateY(80deg); }        
+                .demo7{ width:200px; height:200px; margin:100px auto; border:1px solid gray; position:relative; transform-style:preserve-3d; perspective:500px; transition:all 10s;}
+                .demo7:hover{ transform:rotateX(360deg) rotateY(360deg); }        
+                .demo7 .item{ width:100%; height:100%; font-size:150px; text-align:center; line-height:200px; font-weight:bold; position:absolute; color:#fff;}
+                .demo7 .item:nth-child(1){ background:orange; transform:rotateY(0deg) translateZ(100px);}        
+                .demo7 .item:nth-child(2){ background:red; transform:rotateY(180deg) translateZ(100px);}
+                .demo7 .item:nth-child(3){ background:skyblue; transform:rotateY(90deg) translateZ(100px);}
+                .demo7 .item:nth-child(4){ background:pink; transform:rotateY(-90deg) translateZ(100px);}
+                .demo7 .item:nth-child(5){ background:yellowgreen; transform:rotateX(90deg) translateZ(100px);}
+                .demo7 .item:nth-child(6){ background:#d7d7d7; transform:rotateX(-90deg) translateZ(100px);}  
+                .animateTest{
+                        height: 200px;
+                        width: 200px;
+                        position: absolute;
+                        top:0;
+                        left: 0;
+                        background: rgb(2, 125, 129);
+                        animation: myfirst 5s linear 0s infinite normal;
+                        /* Firefox: */
+                        -moz-animation: myfirst 5s linear 0s infinite normal;
+                        /* Safari 和 Chrome: */
+                        -webkit-animation: myfirst 5s linear 0s infinite normal;
+                        /* Opera: */
+                        -o-animation: myfirst 5s linear 0s infinite normal;
+                }   
+                @keyframes myfirst
+                {
+                0%   {background: rgb(134, 100, 100); left:0px; top:0px;}
+                25%  {background: yellow; left:200px; top:0px;}
+                50%  {background: blue; left:200px; top:200px;}
+                75%  {background: green; left:0px; top:200px;}
+                100% {background: rgb(146, 45, 45); left:0px; top:0px;}
+                }
+                
+                @-moz-keyframes myfirst /* Firefox */
+                {
+                0%   {background: red; left:0px; top:0px;}
+                25%  {background: yellow; left:200px; top:0px;}
+                50%  {background: blue; left:200px; top:200px;}
+                75%  {background: green; left:0px; top:200px;}
+                100% {background: red; left:0px; top:0px;}
+                }
+                
+                @-webkit-keyframes myfirst /* Safari 和 Chrome */
+                {
+                0%   {background: red; left:0px; top:0px;}
+                25%  {background: yellow; left:200px; top:0px;}
+                50%  {background: blue; left:200px; top:200px;}
+                75%  {background: green; left:0px; top:200px;}
+                100% {background: red; left:0px; top:0px;}
+                }
+                
+                @-o-keyframes myfirst /* Opera */
+                {
+                0%   {background: red; left:0px; top:0px;}
+                25%  {background: yellow; left:200px; top:0px;}
+                50%  {background: blue; left:200px; top:200px;}
+                75%  {background: green; left:0px; top:200px;}
+                100% {background: red; left:0px; top:0px;}
+                }       
+        </style>
+</head>
+<body>
+        <div style="height:400px;width:400px;position:relative">
+                <div class="animateTest"></div>
+        </div>
+        <div class="demo1"></div>
+        <ul class="demo2">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+        </ul>
+        <ul class="demo3">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+        </ul>
+        <div class="demo4">
+                <div class="container"></div>
+        </div>
+        <div class="demo5" id="demo5">
+                <div class="container">
+                        <ul>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                        </ul>
+                        <input type="range" value="0" id="range"><br/>
+                        <output id="output" value="0">0</output>
+                </div>
+        </div>
+        <div class="demo6">
+                <div class="container">
+                        <div class="left door"></div>
+                        <div class="right door"></div>
+                </div>
+        </div>
+        <div class="demo7">
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                <div class="item">6</div>                
+        </div>
+      
+</body>
+</html>
+<script type="text/javascript">
+        var demo5 = document.querySelector(".demo5");
+        var lis = demo5.querySelectorAll("li");
+        var output = document.querySelector("output");
+
+        document.querySelector("#range").oninput = function(){
+                // console.log(this.value);
+                // 计算角度 range 0-100 deg 0-360deg
+                var deg = Math.floor(this.value * 360 / 100);
+                // console.log(deg);
+                // 分别设置给三个img标签
+                lis[0].style.transform = "rotateX("+deg+"deg)";
+                lis[1].style.transform = "rotateY("+deg+"deg)";
+                lis[2].style.transform = "rotateZ("+deg+"deg)";
+
+                output.innerHTML = deg;
+        }
+</script>
